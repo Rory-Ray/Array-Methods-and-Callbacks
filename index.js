@@ -24,8 +24,8 @@ Use getFinals to do the following:
 hint - you should be looking at the stage key inside of the objects
 */
 
-function getFinals(/* code here */) {
-   /* code here */
+function getFinals(receiveData) {
+    return receiveData.map((receiveData) => receiveData);
 }
 
 
@@ -36,8 +36,9 @@ Use the higher-order function called getYears to do the following:
 2. Receive a callback function getFinals from task 2 
 3. Return an array called years containing all of the years in the getFinals data set*/
 
-function getYears(/* code here */) {
-    /* code here */
+function getYears(receiveData, cb) {
+    cb = getFinals(receiveData);
+    return cb.map((cb) => cb.Year);
 }
 
 
@@ -49,9 +50,15 @@ Use the higher-order function getWinners to do the following:
 3. Determines the winner (home or away) of each `finals` game. 
 4. Returns the names of all winning countries in an array called `winners` */ 
 
-function getWinners(/* code here */) {
-    /* code here */
-}
+function getWinners(receiveData, cb) {
+    cb = getFinals(receiveData);
+    return cb.map((cb) => {
+      if (cb["Home Team Goals"] > cb["Away Team Goals"]) {
+        return cb["Home Team Name"];
+      }
+      return cb["Away Team Name"];
+    });
+  }
 
 
 
@@ -65,10 +72,17 @@ Use the higher-order function getWinnersByYear to do the following:
 hint: the strings returned need to exactly match the string in step 4.
  */
 
-function getWinnersByYear(/* code here */) {
-    /* code here */
-}
-
+function getWinnersByYear(receiveData, getYears, getWinners) {
+    var x = [];
+    for (let i = 0; i < receiveData.length; i++) {
+      x.push(
+        `In ${getYears(receiveData)[i]}, ${
+          getWinners(receiveData)[i]
+        } won the world cup!`
+      );
+    }
+    return x;
+  }
 
 
 /* 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 Task 6: 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀
@@ -81,10 +95,13 @@ Use the higher order function getAverageGoals to do the following:
  Example of invocation: getAverageGoals(getFinals(fifaData));
 */
 
-function getAverageGoals(/* code here */) {
-   /* code here */
-}
-
+function getAverageGoals(getFinals) {
+    var x = getFinals.map((cb) => cb["Home Team Goals"]);
+    var y = getFinals.map((cb) => cb["Away Team Goals"]);
+    x = x.reduce((total, amount) => total + amount) / x.length;
+    y = y.reduce((total, amount) => total + amount) / y.length;
+    return (x + y).toFixed(2);
+  }
 
 
 
